@@ -30,6 +30,8 @@ public class Produto {
 	@Column(name = "data_criacao")
 	private LocalDate dataCriacao;
 	
+	private Boolean status;
+	
 	@JsonBackReference
 	@ManyToOne
 	@JoinColumn(name = "usuario_id")
@@ -38,5 +40,17 @@ public class Produto {
 	public Produto() {
 		this.dataCriacao = LocalDate.now();
 	}
+
+	public Produto(Long codigo, String descricao, Double valorUnitario, Boolean status,
+			Usuario usuario) {
+		this.codigo = codigo;
+		this.descricao = descricao;
+		this.valorUnitario = valorUnitario;
+		this.dataCriacao = LocalDate.now();
+		this.status = status;
+		this.usuario = usuario;
+	}
+	
+	
 
 }
