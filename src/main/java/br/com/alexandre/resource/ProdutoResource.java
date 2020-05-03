@@ -1,9 +1,15 @@
 package br.com.alexandre.resource;
 
+import java.util.List;
+import java.util.Optional;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -24,6 +30,32 @@ public class ProdutoResource {
 		return ResponseEntity.status(HttpStatus.CREATED).body(produtoSalvo);
 	}
 	
+	@GetMapping("/ativos")
+	public ResponseEntity<List<Produto>> listarProdutosAtivos(){
+		List<Produto> produtosAtivos = service.listaProdutosAtivos();
+		
+		return ResponseEntity.status(HttpStatus.OK).body(produtosAtivos);
+	}
 	
+	@GetMapping("/inativos")
+	public ResponseEntity<List<Produto>> listarProdutosInativos(){
+		List<Produto> produtosInativos = service.listaProdutosInativos();
+		
+		return ResponseEntity.status(HttpStatus.OK).body(produtosInativos);
+	}
+	
+	@PutMapping("/edicao/{codigo}")
+	public ResponseEntity<Produto> editarProduto(@PathVariable Long codigo, Produto produtoAlterado){
+		Produto produtoAlteradoSalvo = service.alterarProduto(codigo, produtoAlterado);
+		
+		return ResponseEntity.status(HttpStatus.OK).body(produtoAlteradoSalvo);
+	}
+	
+	@GetMapping("/{codigo}")
+	public ResponseEntity<Optional<Produto>> listarProdutoPorCodigo(@PathVariable Long codigo){
+		Optional<Produto> produtoSelecionado = service.buscarPorCodigo(codigo);
+		
+		return ResponseEntity.status(HttpStatus.OK).body(produtoSelecionado);
+	}
 	
 }
