@@ -5,6 +5,7 @@ import java.util.Optional;
 
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import br.com.alexandre.domain.Produto;
@@ -22,14 +23,14 @@ public class ProdutoService {
 		return produtoSalvo;
 	}
 	
-	public List<Produto> listaProdutosAtivos(){
-		List<Produto> produtosAtivos = repo.listarProdutosAtivos();
+	public List<Produto> listaProdutosAtivos(Pageable pageable){
+		List<Produto> produtosAtivos = repo.listarProdutosAtivos(pageable);
 		
 		return produtosAtivos;
 	}
 	
-	public List<Produto> listaProdutosInativos(){
-		List<Produto> produtosInativos = repo.listarProdutosInativos();
+	public List<Produto> listaProdutosInativos(Pageable pageable){
+		List<Produto> produtosInativos = repo.listarProdutosInativos(pageable);
 		
 		return produtosInativos;
 	}

@@ -4,6 +4,7 @@ import java.util.List;
 import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -31,15 +32,15 @@ public class ProdutoResource {
 	}
 	
 	@GetMapping("/ativos")
-	public ResponseEntity<List<Produto>> listarProdutosAtivos(){
-		List<Produto> produtosAtivos = service.listaProdutosAtivos();
+	public ResponseEntity<List<Produto>> listarProdutosAtivos(Pageable pageable){
+		List<Produto> produtosAtivos = service.listaProdutosAtivos(pageable);
 		
 		return ResponseEntity.status(HttpStatus.OK).body(produtosAtivos);
 	}
 	
 	@GetMapping("/inativos")
-	public ResponseEntity<List<Produto>> listarProdutosInativos(){
-		List<Produto> produtosInativos = service.listaProdutosInativos();
+	public ResponseEntity<List<Produto>> listarProdutosInativos(Pageable pageable){
+		List<Produto> produtosInativos = service.listaProdutosInativos(pageable);
 		
 		return ResponseEntity.status(HttpStatus.OK).body(produtosInativos);
 	}
