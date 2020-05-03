@@ -1,7 +1,6 @@
 package br.com.alexandre.resource;
 
 import java.util.List;
-import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Pageable;
@@ -53,8 +52,8 @@ public class ProdutoResource {
 	}
 	
 	@GetMapping("/{codigo}")
-	public ResponseEntity<Optional<Produto>> listarProdutoPorCodigo(@PathVariable Long codigo){
-		Optional<Produto> produtoSelecionado = service.buscarPorCodigo(codigo);
+	public ResponseEntity<Produto> listarProdutoPorCodigo(@PathVariable Long codigo){
+		Produto produtoSelecionado = service.buscarPorCodigo(codigo);
 		
 		return ResponseEntity.status(HttpStatus.OK).body(produtoSelecionado);
 	}

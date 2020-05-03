@@ -10,6 +10,7 @@ import org.springframework.stereotype.Service;
 
 import br.com.alexandre.domain.Produto;
 import br.com.alexandre.repository.ProdutoRepository;
+import br.com.alexandre.service.exception.ObjectNotFoundException;
 
 @Service
 public class ProdutoService {
@@ -24,29 +25,36 @@ public class ProdutoService {
 	}
 	
 	public List<Produto> listaProdutosAtivos(Pageable pageable){
-		List<Produto> produtosAtivos = repo.listarProdutosAtivos(pageable);
+		Optional<List<Produto>> produtosAtivos = repo.listarProdutosAtivos(pageable);
 		
-		return produtosAtivos;
+		return produtosAtivos.orElseThrow(() -> new ObjectNotFoundException(
+				"Nenhum produto ativo encontrado !"));
 	}
 	
 	public List<Produto> listaProdutosInativos(Pageable pageable){
-		List<Produto> produtosInativos = repo.listarProdutosInativos(pageable);
+		Optional<List<Produto>> produtosInativos = repo.listarProdutosInativos(pageable);
 		
-		return produtosInativos;
+		return produtosInativos.orElseThrow(() -> new ObjectNotFoundException(
+				"Nenhum produto inativo encontrado !"));
 	}
 	
 	public Produto alterarProduto(Long codigo, Produto produtoAlterado) {
 		Optional<Produto> produtoAntigo = repo.findById(codigo);
-		BeanUtils.copyProperties(produtoAntigo, produtoAlterado);
-		Produto produtoAlteradoSalvo = repo.save(produtoAlterado);
-		
-		return produtoAlteradoSalvo;
+		if(produtoAntigo.isEmpty()) {
+			return produtoAntigo.orElseThrow(() -> new ObjectNotFoundException(
+					"Nenhum produto encontrado com o código: " + codigo));
+		}else {
+			BeanUtils.copyProperties(produtoAntigo, produtoAlterado);
+			Produto produtoAlteradoSalvo = repo.save(produtoAlterado);
+			return produtoAlteradoSalvo;
+		}
 	}
 	
-	public Optional<Produto> buscarPorCodigo(Long codigo) {
+	public Produto buscarPorCodigo(Long codigo) {
 		Optional<Produto> produtoSelecionado = repo.findById(codigo);
 		
-		return produtoSelecionado;
+		return produtoSelecionado.orElseThrow(() -> new ObjectNotFoundException(
+				"Nenhum produto encontrado com o código: " + codigo));
 	}
 
 }

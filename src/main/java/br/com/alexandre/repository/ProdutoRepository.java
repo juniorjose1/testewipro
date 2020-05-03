@@ -1,6 +1,7 @@
 package br.com.alexandre.repository;
 
 import java.util.List;
+import java.util.Optional;
 
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
@@ -13,9 +14,9 @@ import br.com.alexandre.domain.Produto;
 public interface ProdutoRepository extends JpaRepository<Produto, Long> {
 	
 	@Query("FROM Produto WHERE status = true")
-	public List<Produto> listarProdutosAtivos(Pageable pageable);
+	public Optional<List<Produto>> listarProdutosAtivos(Pageable pageable);
 	
 	@Query("FROM Produto WHERE status = false")
-	public List<Produto> listarProdutosInativos(Pageable pageable);
+	public Optional<List<Produto>> listarProdutosInativos(Pageable pageable);
 
 }
