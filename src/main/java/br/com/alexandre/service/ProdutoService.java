@@ -73,5 +73,9 @@ public class ProdutoService {
 		
 		return produtoInativadoSalvo;
 	}
+	
+	public void excluirProdutoPorCodigo(Long codigo) {
+		repo.deleteById(codigo);
+	}
 
 }
