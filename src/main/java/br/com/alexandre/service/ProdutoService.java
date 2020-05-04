@@ -25,14 +25,16 @@ public class ProdutoService {
 	}
 	
 	public List<Produto> listaProdutosAtivos(Pageable pageable){
-		Optional<List<Produto>> produtosAtivos = repo.listarProdutosAtivos(pageable);
+		Boolean status = true;
+		Optional<List<Produto>> produtosAtivos = repo.findByStatus(status, pageable);
 		
 		return produtosAtivos.orElseThrow(() -> new ObjectNotFoundException(
 				"Nenhum produto ativo encontrado !"));
 	}
 	
 	public List<Produto> listaProdutosInativos(Pageable pageable){
-		Optional<List<Produto>> produtosInativos = repo.listarProdutosInativos(pageable);
+		Boolean status = false;
+		Optional<List<Produto>> produtosInativos = repo.findByStatus(status, pageable);
 		
 		return produtosInativos.orElseThrow(() -> new ObjectNotFoundException(
 				"Nenhum produto inativo encontrado !"));

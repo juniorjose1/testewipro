@@ -13,10 +13,6 @@ import br.com.alexandre.domain.Produto;
 @Repository
 public interface ProdutoRepository extends JpaRepository<Produto, Long> {
 	
-	@Query("FROM Produto WHERE status = true")
-	public Optional<List<Produto>> listarProdutosAtivos(Pageable pageable);
-	
-	@Query("FROM Produto WHERE status = false")
-	public Optional<List<Produto>> listarProdutosInativos(Pageable pageable);
+	public Optional<List<Produto>> findByStatus(Boolean status, Pageable pageable);
 
 }
