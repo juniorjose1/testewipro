@@ -68,8 +68,9 @@ public class ProdutoResource {
 	}
 	
 	@DeleteMapping("/exclusao/{codigo}")
-	@ResponseStatus(value = HttpStatus.NO_CONTENT)
-	public void excluirProdutoPorCodigo(@PathVariable Long codigo) {
-		service.excluirProdutoPorCodigo(codigo);
+	public ResponseEntity<Produto> excluirProdutoPorCodigo(@PathVariable Long codigo) {
+		Produto produtoSelecionado = service.excluirProdutoPorCodigo(codigo);
+		
+		return ResponseEntity.status(HttpStatus.OK).body(produtoSelecionado);
 	}
 }

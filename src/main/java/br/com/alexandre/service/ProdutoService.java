@@ -60,22 +60,32 @@ public class ProdutoService {
 	public Produto inativarProduto(Long codigo) {
 		Optional<Produto> produtoSelecionado = repo.findById(codigo);
 		
-		Produto produtoInativado = new Produto();
+		if(produtoSelecionado.isEmpty()) {
+			return produtoSelecionado.orElseThrow(() -> new ObjectNotFoundException(
+					"Nenhum produto encontrado com o código: " + codigo));
+		}else {
+			
+			Produto produtoInativado = new Produto();
+			
+			produtoInativado.setCodigo(produtoSelecionado.get().getCodigo());
+			produtoInativado.setDescricao(produtoSelecionado.get().getDescricao());
+			produtoInativado.setValorUnitario(produtoSelecionado.get().getValorUnitario());
+			produtoInativado.setDataCriacao(produtoSelecionado.get().getDataCriacao());
+			produtoInativado.setStatus(false);
+			produtoInativado.setUsuario(produtoSelecionado.get().getUsuario());
+			
+			Produto produtoInativadoSalvo = repo.save(produtoInativado);
+			
+			return produtoInativadoSalvo;
+		}
 		
-		produtoInativado.setCodigo(produtoSelecionado.get().getCodigo());
-		produtoInativado.setDescricao(produtoSelecionado.get().getDescricao());
-		produtoInativado.setValorUnitario(produtoSelecionado.get().getValorUnitario());
-		produtoInativado.setDataCriacao(produtoSelecionado.get().getDataCriacao());
-		produtoInativado.setStatus(false);
-		produtoInativado.setUsuario(produtoSelecionado.get().getUsuario());
-		
-		Produto produtoInativadoSalvo = repo.save(produtoInativado);
-		
-		return produtoInativadoSalvo;
 	}
 	
-	public void excluirProdutoPorCodigo(Long codigo) {
+	public Produto excluirProdutoPorCodigo(Long codigo) {
+		Optional<Produto> produtoSelecionado = repo.findById(codigo);
 		repo.deleteById(codigo);
+		return produtoSelecionado.orElseThrow(() -> new ObjectNotFoundException(
+				"Nenhum produto encontrado com o código: " + codigo));
 	}
 
 }
