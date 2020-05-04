@@ -58,4 +58,10 @@ public class ProdutoResource {
 		return ResponseEntity.status(HttpStatus.OK).body(produtoSelecionado);
 	}
 	
+	@PutMapping("/inativacao/{codigo}")
+	public ResponseEntity<Produto> inativarProduto(@PathVariable Long codigo){
+		Produto produtoInativadoSalvo = service.inativarProduto(codigo);
+		
+		return ResponseEntity.status(HttpStatus.OK).body(produtoInativadoSalvo);
+	}
 }
